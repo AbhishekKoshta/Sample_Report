@@ -1,246 +1,361 @@
-#==========================Variables used in the report==================================#
-from IPython import get_ipython
-get_ipython().magic('reset -sf')
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch, cm
-from reportlab.lib.pagesizes import letter
+from fpdf import FPDF
+from webcolors import name_to_rgb
+#importing data from Child Model
+from CMC_20SEP import plot_BW,plot_FM,plot_FM_id,plot_H,Total_carb,Total_Fat,Total_Prot,Totalt,plot_age,plot_status,plot_status_id,plot_FMP,plot_FMP_id,plot_BMI,plot_BMI_id,plot_H_id
 
-import time
-Name = "Abinas"
-Current_Body_Weight = 78
-Body_Weight_predicted = 79.2
-Healthy_Body_Weight_Range = str(18*167*167/10000) + '-' + str(23*167*137/10000)
+pdf=FPDF(format='letter',unit='in')
 
-Current_Fat_mass = 20
-Fat_mass_predicted = 23.2
+#New Page With Boarder
+def newpg():
+    pdf.add_page()
+    global left
+    left = pdf.l_margin
+    global right
+    right = pdf.r_margin
+    global top
+    top = pdf.t_margin
+    global bottom
+    bottom = pdf.b_margin
+    pdf.ln(0.15)
 
-Current_Fat_free_mass = 78-20
-Fat_free_mass_predicted = 79.2-23.2    
+    global epw
+    epw = pdf.w - left - right
+    global eph
+    eph = pdf.h - top -bottom
 
-Gender = 'Male'
+    pdf.rect(left, top, w=epw, h=eph)
+    #ybefore=pdf.get_y()
+    #pdf.set_xy(epw/3+left, ybefore)
+    pdf.image(logo,x=6.2 , y=10.3, w=2 , h= 0.5, type ='JPEG')
+    #pdf.set_xy(left, ybefore)
 
-Time_Stamp = time.strftime("%d") +' '+time.strftime("%B")+' '+time.strftime("%Y")
-Age = 35
-Height = 167
-Carb_percent = 70
-Fat_percent = 19
-Prot_percent = 11
+# Variables
 
-Ideal_Carb_percent = 55
-Ideal_Fat_percent = 26
-Ideal_Prot_percent = 19
+Name = "Shreesha"
+Age = "24"
+Sex = "Male"
+Height = "169"
+Weight = "65"
+Date = " "
+BMI_CValue = "2000 "
+BMI_PValue = "51351"
+BW_CValue = "546516"
+BW_PValue = "6454665"
+#Lean_Mass_RValue =" "
 
-Current_BMI = round(78/167/167*10000,1)
-Predicted_BMI = round(79.2/167/167*10000,1)
+#Images
 
-C_P_F = [70,19,11]
+logo = "C:\\Users\\shreesha\\AppData\\Local\\Programs\\Python\\Python36\\New_L_J.jpg"
 
-def Brief_Report(c):
-    X0 = -23; Y0 = -2
-    Xl = -20; Yl = 2
-    Xr = -20; Yr = 0
-    c.drawString(50,50, "==============00==============")
-    c.drawString(700,700, "=========+++++++++++++++++++++800")
+BMI_pic= "C:\\Users\\shreesha\\AppData\\Local\\Programs\\Python\\Python36\\gauge.png"
 
-    c.setFont('Helvetica-Bold',14)
-    c.drawString(100+X0,800+Y0, "Personalized Brief Health Report by: ")
-    c.drawString(450+X0,800+Y0,Time_Stamp)
-    c.line(82+X0,790+Y0,564+X0,790+Y0)
+BPF_pic="C:\\Users\\shreesha\\Desktop\\MetFlux\\Fat percent.png"
 
-    c.drawImage('MetFlux_Logo.png', 80+X0,685+Y0, 17*cm, 3.5*cm)
-    X0 = -23; Y0 = -32
-    Xl = -20; Yl = -32
-    Xr = -20; Yr = -32
-    c.setFont('Helvetica', 11)
-
-    c.drawString(100+X0,700+Y0, "Name")
-    c.drawString(230+X0,700+Y0, Name)
-    c.drawString(350+X0,700+Y0, "Body Weight (kg)")
-    c.drawString(510+X0,700+Y0, str(Current_Body_Weight))
-    
-    c.line(80+Xl,690+Yl,562+Xl,690+Yl)
-    c.drawString(100+X0,680+Y0, "Age (years)")
-    c.drawString(240+X0,680+Y0, str(Age))
-    c.drawString(350+X0,680+Y0, "Height (cm)")
-    c.drawString(510+X0,680+Y0, str(Height))
-
-
-    X1=0;Y1=0
-    c.setFont('Helvetica-Bold', 12)
-    c.drawString(100+X0,650+Y0, "Macronutrient Intake")
-    c.drawImage("Nutritional_Info.png", 80+X1,470+Y1, 6.5*cm, 5*cm)
-    c.setFont('Helvetica', 11)
-    c.drawString(350+X0,620+Y0, "Healthy Composition Range")
-    c.drawString(350+X0,600+Y0, "Carbohydrate  '45-65'")
-    c.drawString(350+X0,580+Y0, "Protein  '10-35'")
-    c.drawString(350+X0,560+Y0, "Fat  '15-25'")
-
-    c.setFont('Helvetica-Bold', 12)    
-    c.drawString(100+X0,500+Y0, "Macronutrient Analysis")
-    c.setFont('Helvetica', 11)
-    HCI = '''A high-carb diet boosts blood sugar levels, prompting the pancreas to produce more insulin to handle the excess glucose. Over extended periods, a diet high in carbohydrates cause cells to become resistant to insulin, a major cause in type 2 or adult-onset diabetes High Carb consumption will increase your fat accumulation rate, as the fats are the most efficient way storing energy. Carbs are converted into fats through a metabolic pathways called De Novo Lipogenesis (DNL). As body try to optimize the energy storage, it converts carbs into fats.'''
-    HPI='''High protein intake is recommended for individual working/training hard. Body have strict balance on protein synthesis and protein breakdown. If you are not working enough to burn the calories. Please do not take supplements of protein. It will load your kidney/liver with extra work.'''
-    HFI='''The most serious risk of high fat diets is heart disease. According to the American Heart Association, a diet high in saturated fat can dramatically raise your cholesterol, increasing your risk of heart disease.'''
-    
-    
-    if C_P_F[0] > 25:
-        X_ci = 80; Y_ci=450
-        temp=len(HCI)
-        c.drawString(X_ci,Y_ci,'* '+ HCI[:90].strip())
-        c.drawString(X_ci,Y_ci-10, HCI[90:180].strip())
-        c.drawString(X_ci,Y_ci-20, HCI[180:270].strip())
-        c.drawString(X_ci,Y_ci-30, HCI[270:360].strip())
-        c.drawString(X_ci,Y_ci-40, HCI[360:450].strip())
-        c.drawString(X_ci,Y_ci-50, HCI[450:540].strip())
-        c.drawString(X_ci,Y_ci-60, HCI[540:temp+1].strip())
-        Y_ci=Y_ci-80
-    if C_P_F[1] > 15:
-        temp=len(HPI)
-        c.drawString(X_ci,Y_ci,'* '+ HPI[:90].strip())
-        c.drawString(X_ci,Y_ci-10, HPI[90:180].strip())
-        c.drawString(X_ci,Y_ci-20, HPI[180:270].strip())
-        c.drawString(X_ci,Y_ci-30, HPI[270:360].strip())
-        c.drawString(X_ci,Y_ci-40, HPI[360:450].strip())
-        c.drawString(X_ci,Y_ci-50, HPI[450:540].strip())
-        c.drawString(X_ci,Y_ci-60, HPI[540:temp+1].strip())        
-        Y_ci=Y_ci-50
-    if C_P_F[2] > 15:
-        temp=len(HFI)
-        c.drawString(X_ci,Y_ci,'* '+ HFI[:90].strip())
-        c.drawString(X_ci,Y_ci-10, HFI[90:180].strip())
-        c.drawString(X_ci,Y_ci-20, HFI[180:270].strip())
-        c.drawString(X_ci,Y_ci-30, HFI[270:360].strip())
-        c.drawString(X_ci,Y_ci-40, HFI[360:450].strip())
-        c.drawString(X_ci,Y_ci-50, HFI[450:540].strip())
-        c.drawString(X_ci,Y_ci-60, HFI[540:temp+1].strip())        
-        Y_ci=Y_ci-80        
-        
-    c.setFont('Helvetica-Bold', 12)
-    c.drawString(100+X0,300+Y0, "Breakup of Calorie Intake")
-    c.drawImage("Daily_Kcal_Breakdown.png", 60+X1,125+Y1, 8.5*cm, 5*cm)
- 
-    c.drawString(330+X0,300+Y0, "Ideal Breakup of Calorie Intake")
-    c.drawImage("Ideal_Daily_Kcal_Breakdown.png", 280+X1,125+Y1, 8.5*cm, 5*cm)
-    
-    c.setFont('Helvetica', 11)
-    c.drawString(100+X0,150+Y0, "Comment")
-    c.drawString(100+X0,130+Y0,"* Eat a heavy breakfast and it will boost your metabolism and keep you energetic throughout ")
-    c.drawString(100+X0,115+Y0,"the day")
-    c.drawString(100+X0,95+Y0, "* If you are planning to reduce your body weight, consume only 20 % from the dinner of the ")
-    c.drawString(100+X0,80+Y0,"total kcal in a day")
+Weight_pic="C:\\Users\\shreesha\\Desktop\\MetFlux\\Weight.png"
 
 
 
-# Next Page
-    c.showPage()
-    c.setFont('Helvetica-Bold', 14)
-    c.drawString(100,798, "Physical Activity Graph")
-    c.drawImage("Exercise.png", 60,580,8.5*cm,7.5*cm)    
-    
-    c.setFont('Helvetica', 12)    
-    c.drawString(300,740,"Green area in graph shows the ideal kcal to be")
-    c.drawString(300,730,"burnt through exercise on an average in a day")
-    c.drawString(300,680,"Red area in graph shows actual kcal you have")
-    c.drawString(300,670,"on an average through exercise in a day")
-    
-    
-    X0=-20 ;Y0=-50
-    c.setFont('Helvetica-Bold',14)
-    c.drawString(100+X0,570+Y0, "Future Predictions")
-    c.setFont('Helvetica',12)
-    c.drawString(100+X0,540+Y0, "Health Indicators")
-    c.drawString(320+X0,540+Y0, "Current")
-    c.drawString(400+X0,540+Y0, "Healthy")
-    c.drawString(485+X0,540+Y0, "After one year")
-    
-    c.drawString(190+X0,520+Y0, "Body Weight")
-    c.drawString(320+X0,520+Y0, str(Current_Body_Weight))
-    c.drawString(400+X0,520+Y0, "BW_range")
-    c.drawString(500+X0,520+Y0, Healthy_Body_Weight_Range)
-    
-    c.drawString(190+X0,500+Y0, "Body Mass Index")
-    c.drawString(320+X0,500+Y0, str(Current_BMI))
-    c.drawString(400+X0,500+Y0, "18-23")
-    c.drawString(500+X0,500+Y0, str(Predicted_BMI)) 
-    
-    c.drawString(190+X0,480+Y0, "% Fat")
-    c.drawString(320+X0,480+Y0, str(Current_Fat_mass))
-    if Gender== 'Male' :
-        c.drawString(400+X0,480+Y0, "15-25")
-    if Gender== 'Female':
-        c.drawString(400+X0,480+Y0, "15-35")
-    c.drawString(500+X0,480+Y0, str(Fat_mass_predicted))
-    
-    c.drawString(190+X0,460+Y0, "Lean Muscle Mass")
-    c.drawString(320+X0,460+Y0, str(Current_Fat_free_mass))
-    c.drawString(400+X0,460+Y0, "75-85")
-    c.drawString(500+X0,460+Y0, str(Fat_free_mass_predicted))    
-    
-    c.drawString(100+X0,438+Y0, "Body composition Analysis")
-    c.drawString(320+X0,438+Y0, "Deficient")
-    c.drawString(400+X0,438+Y0, "Healthy")
-    c.drawString(485+X0,438+Y0, "Excessive")
-    
-    
-    c.drawString(190+X0,420+Y0, "Fat")
-#    c.drawString(320+X0,420+Y0, '150')    
-    
-    c.drawString(400+X0,420+Y0, "30-70")
-    c.drawString(500+X0,420+Y0, '---')    
+#Text Lines
 
-    c.drawString(190+X0,400+Y0, "Protein")
-    c.drawString(320+X0,400+Y0, "---")
-    c.drawString(400+X0,400+Y0, "< 130")
-    c.drawString(500+X0,400+Y0, "---")  
+title = """
+Your Personalised Health Report:-
 
-    c.drawString(190+X0,380+Y0, "Salts level")
-    c.drawString(320+X0,380+Y0, "---")
-    c.drawString(400+X0,380+Y0, "25-160")
-    c.drawString(500+X0,380+Y0, "---")  
+"""
 
-    c.drawString(190+X0,360+Y0, "Total Body Water")
-    c.drawString(320+X0,360+Y0,"---")
-    c.drawString(400+X0,360+Y0, "140-250")
-    c.drawString(500+X0,360+Y0, "---")   
+int111 = """'If you could give every individual the right amount of \
+nourishment and exercise, not too little and not too much, then we have fond the\
+ safest way to health.'"""
 
-    c.drawString(190+X0,340+Y0, "Bone mineral mass")
-    c.drawString(320+X0,340+Y0, "---")
-    c.drawString(400+X0,340+Y0, "6-23")
-    c.drawString(500+X0,340+Y0, "---")
-    
-    c.drawString(100+X0,315+Y0, "Health Analysis")    
-    c.drawString(320+X0,300+Y0, '---' )
-    if Current_BMI > 14 and Current_BMI < 23:
-        c.drawString(190+X0,300+Y0, "Healthy")
+intro2 = """Metflux is pleased to provide you with your personalized overall\
+ health Report designed to help you discover a healthier and better you \
+by providing recommendations to your daily diet based on cutting-edge \
+technology developed by our team.
+Everything you eat and drink over time matters. \
+The right mix can help you be healthier now and in the future.
+Start with small changes to make healthier choices and enjoy life \
+keeping your body at its prime and we can help you get there!!"""
 
-    if Current_BMI > 22 and Current_BMI < 27:
-        c.drawString(400+X0,300+Y0, "Obese")
-    elif Current_BMI < 14:
-        c.drawString(400+X0,300+Y0, "Malnourished")
-    else:    
-        c.drawString(400+X0,300+Y0, "Overweight")
-    
-    
-    X0=-10;Y0=-25
-    c.setFont('Helvetica-Bold',14)
-    c.drawString(100+X0,215+Y0, "Comments for you")
-    c.setFont('Helvetica',12)
-    c.drawString (100+X0,180+Y0, "Your current health score is 60 based on your current lifestyle and dietary intake provided")
-    c.drawString (100+X0,160+Y0, "* Health score can be increased following the metflux's suggestion")
-    c.drawString (100+X0,140+Y0, "* Your macronutrient food composition is in healthy range.")
-    c.drawString (100+X0,120+Y0, "* You need to focus on having an active lifestyle to mitigate the disease risk")
-    c.drawString (100+X0,100+Y0, "* Please subscribe to MetFlux's advanced plan for getting MetFlux's suggestion")
-    c.setFont('Helvetica',14)
-#    c.drawString (15+X0,60+Y0, "You can mitigate the diabetes and cardiovascular risk by 40 % with simply following the MetFlux's suggestion")
-    c.drawString (100+X0,60+Y0, "You can mitigate the diabetes and cardiovascular risk by 40% ")
-    c.drawString (120+X0,40+Y0, "with simply following the MetFlux's suggestion")
-#    c.drawString(100+X0,60+Y0,"MetFlux's suggestion")
+Macro_Nutri = """Macronutrients are defined as a class of chemical compounds which humans consume in the \
+largest quantities and which provide humans with the bulk of energy. There are 3 major \
+Macronutrients Namely Carbohydrates, Proteins & Fats and a healthy diet includes a balance of \
+protein, carbohydrates and fats. Reducing or increasing any one of these nutrients \
+can have major consequences on the body."""
 
-import sys,os
-fle = os.path.basename(sys.argv[0])[:-3]
-Report_name = fle + str(Name) + ".pdf"    
+Body_Comp = """Experimental investigation of human metabolism, nutrition, and body \
+composition over the past century has produced a wealth of quantitative data on how \
+the body dynamically adapts in response to diet changes and an imbalance between energy \
+intake and energy expenditure will lead to a change in body weight (mass) and body composition (fat and lean masses)."""
 
-c = canvas.Canvas(Report_name)
-Brief_Report(c)
-c.showPage()
-c.save()
+BMI = """The BMI is an attempt to quantify the amount of tissue mass (muscle, fat, and bone) in an individual, \
+and then categorize that person as underweight, normal weight, overweight, or obese based on that value. \
+A healthy BMI is between 18.5 and 23. BMI is calculated by dividing your weight by the square of your height,\
+and is a general guide to let you know if you're within your healthy weight range.
+
+The generic classification is as shown below:-
+
+Underweight(<18) - Risk of developing problems such as nutritional deficiency and osteoporosis
+Normal(18-23) - Healthy Range
+Moderately Obese(23-28) - Moderate risk of developing heart disease, high blood pressure, stroke, diabetes.
+Severely Obese(>28) - High risk of developing heart disease, high blood pressure, stroke, diabetes
+
+
+"""
+
+BMI_Result = """For a normal healthy adult, the BMI ranges from 18-23 and your current score is at """+str(BMI_CValue)+""". Continuing \
+with your current lifestyle and diet, your score is predicted to be """+str(BMI_PValue)+""" after a year."""
+
+Body_Weight = """
+
+Body weight is the measurement of weight without items located on the person \
+and any Excess or reduction in the body weight is regarded as an indicator of determining a person's health, \
+with body volume measurement providing an extra dimension by calculating the distribution of body weight.
+
+
+
+
+"""
+
+Body_Weight_Result = """Considering that a normal healthy adult weigh around 47 to 60 kgs., \
+your current weight is """+str(BW_CValue)+""" kgs and is predicted to rise to """+str(BW_PValue)+""" kgs with the current lifestyle and diet."""
+
+BPF = """The body fat percentage (BFP) is the total mass of fat \
+divided by total body mass \
+where in body fat includes essential body fat and storage body fat. \
+The BPF is considered as \
+a fitness level measure as only body measurement calculates a persons \
+relative body composition \
+without regard to either height or body."""
+
+Lean_Muscle = """Lean muscle is related to lean body mass, which is the \
+content of the body without any fat. Lean body mass is used to calculate \
+basal metabolic rate. Lean muscle refers to muscle that is independent, \
+devoid of fat."""
+
+##Page 1
+
+newpg()
+
+##Code for boxes
+
+pdf.set_font('times','B',11)
+pdf.image(logo,x= None, y=None, w= epw, h= 2, type ='JPEG')
+pdf.ln()
+pdf.cell(0.9)
+pdf.cell(3,0.2,'Name: {}'.format(Name),border = 1 ,align = 'L')
+pdf.cell(3,0.2,'Age: {}'.format(Age),border = 1, align ='L')
+pdf.ln()
+pdf.cell(0.9)
+pdf.cell(3,0.2,'Gender: {}'.format(Sex),border = 1 ,align = 'L')
+pdf.cell(3,0.2,'Body Weight: {} kgs'.format(Weight),border = 1, align ='L')
+pdf.ln()
+pdf.cell(0.9)
+pdf.cell(3,0.2,'Height: {} cms'.format(Height),border = 1 ,align = 'L')
+pdf.cell(3,0.2,'Date: {}'.format(Date),border = 1, align ='L')
+pdf.ln(0.4)
+
+##Code for Intro
+
+pdf.set_font('times','',11)
+pdf.multi_cell(epw,0.15,int111)
+pdf.ln(0.15)
+pdf.set_font('times','B',11)
+pdf.cell(0,0,'Dear ABC,')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw,0.15,intro2)
+pdf.ln(0.25)
+
+##Code for Macro Nutrients
+
+pdf.set_font('times','B',14)
+pdf.set_fill_color(*name_to_rgb('black'))
+pdf.set_text_color(*name_to_rgb('white'))
+pdf.multi_cell(epw,0.15,title, fill= 1, align = 'C')
+pdf.set_text_color(*name_to_rgb('Black'))
+pdf.ln(0.25)
+pdf.set_font('times','B',12)
+pdf.cell(0,0,'Macronutrient Ratio')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw,0.15,Macro_Nutri)
+pdf.ln(0.15)
+
+##Page 2
+
+newpg()
+
+##Code for Body Composition
+
+pdf.set_font('times','B',12)
+pdf.cell(0,0,'Body Composition Dynamics')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw,0.15,Body_Comp)
+pdf.ln(0.25)
+
+##Code for BMI
+
+pdf.set_font('times','B',12)
+pdf.cell(0,0,'BMI- Body Mass Index')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+ybeforeBMI = pdf.get_y()
+pdf.multi_cell(epw/2,0.15,BMI)
+yafterBMI = pdf.get_y()
+hei = yafterBMI - ybeforeBMI
+pdf.set_xy(epw/2+left, ybeforeBMI)
+pdf.image(BMI_pic,x= None, y=None, w= epw/2, h= hei, type ='PNG')
+pdf.set_xy(left, yafterBMI)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,'Your BMI Test Result:-', fill= 1, align = 'C')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.set_fill_color(*name_to_rgb('white'))
+pdf.multi_cell(epw,0.15,BMI_Result,fill=1)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,' ', fill= 1, align = 'C')
+pdf.ln(0.25)
+##Code for Body Weight
+
+pdf.cell(0,0,'Body Weight')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+ybeforeBW = pdf.get_y()
+pdf.image(Weight_pic,x= None, y=None, w= epw/2, h= 2, type ='PNG')
+pdf.set_xy(epw/2+left,ybeforeBW)
+pdf.multi_cell(epw/2,0.15,Body_Weight)
+yafterBW = pdf.get_y()
+
+pdf.set_xy(left,yafterBW)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(229,229,229)
+pdf.multi_cell(epw,0.15,'Your Body Weight Test Result:-', fill= 1, align = 'C')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw,0.15,Body_Weight_Result)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(229,229,229)
+pdf.multi_cell(epw,0.15,' ', fill= 1, align = 'C')
+pdf.ln(0.25)
+
+##Page 3
+
+newpg()
+
+##Code for % fat
+
+pdf.set_font('times','B',12)
+pdf.cell(0,0,'BPF- Body Percentage Fat')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+ybeforeBPF = pdf.get_y()
+pdf.multi_cell(epw/2,0.15,BPF)
+yafterBPF = pdf.get_y()
+heig = yafterBPF - ybeforeBPF
+pdf.set_xy(epw/2+left, ybeforeBPF)
+pdf.image(BMI_pic,x= None, y=None, w= epw/2, h= heig, type ='PNG')
+pdf.set_xy(left, yafterBPF)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,'Your BPF Test Result:-', fill= 1, align = 'C')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+##pdf.set_fill_color(*name_to_rgb('yellow'))
+##pdf.multi_cell(epw,0.15,BMI_Result,fill=1)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,' ', fill= 1, align = 'C')
+pdf.ln(0.25)
+
+##Code for Lean Muscle
+
+pdf.cell(0,0,'Lean Muscle Mass')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+ybeforeLM = pdf.get_y()
+pdf.set_xy(epw/2+left,ybeforeLM)
+pdf.multi_cell(epw/2,0.15,Lean_Muscle)
+yafterLM = pdf.get_y()
+
+##Space for Pic
+
+pdf.set_xy(left,yafterLM)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,'Your Lean Muscle Mass Test Result:-', fill= 1, align = 'C')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+#pdf.multi_cell(epw,0.15,Body_Weight_Result)
+pdf.ln(0.1)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,' ', fill= 1, align = 'C')
+pdf.ln(0.25)
+
+##page 4
+
+newpg()
+
+##New idea
+
+pdf.set_font('times','B',12)
+pdf.cell(0,0,'Title')
+pdf.ln(0.15)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw/2,0.15,'Some Random Text')
+pdf.ln(0.15)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,' ', fill= 1, align = 'C')
+ybef=pdf.get_y()
+pdf.ln(0.25)
+ybeforeF = pdf.get_y()
+pdf.cell(epw/2,0.15,'Your present day data')
+pdf.ln(0.2)
+pdf.image(BMI_pic,x= None, y=None, w= epw/2, h= 3, type ='PNG')
+ybeforez=pdf.get_y()
+pdf.ln(0.15)
+pdf.set_xy(left, ybeforez)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw/2,0.15,'Some Random Text for Present data                       \
+dasdsadssa asdsdsadsdsad sdsdsdsfggth hthhdtheth thdthtdth htheththdhbth               ththbtbttb ththdggfb dffdgdfgtb dgbdbd,')
+pdf.ln(0.15)
+ylastP=pdf.get_y()
+pdf.set_xy(epw/2+left, ybeforeF)
+pdf.set_font('times','B',12)
+pdf.multi_cell(epw/2,0.15,'Your Future Data')
+ybeforex=pdf.get_y()
+pdf.ln(0.2)
+pdf.set_xy(epw/2+left, ybeforex)
+pdf.image(BMI_pic,x= None, y=None, w= epw/2, h= 3, type ='PNG')
+ybeforey=pdf.get_y()
+pdf.ln(0.15)
+pdf.set_xy(epw/2+left, ybeforey)
+pdf.set_font('times','',11)
+pdf.multi_cell(epw/2,0.15,'Some Random Textfor Future Data dsfsdfsdf sdfsdfsdf dfsdfsdf sdfsfsdf sfdfsdfdsf sdfsdfsdfsd sdfsdfdfsdf sdgsdgdsf dsfsdfdsfdsf')
+pdf.ln(0.15)
+ylastF=pdf.get_y()
+ylast=ylastP
+if ylastF > ylastP:
+    ylast = ylastF
+pdf.rect(epw/2+left, ybef, w= 0.01, h=ylast-ybef)
+pdf.set_xy(left, ylast)
+pdf.set_font('times','B',12)
+pdf.set_fill_color(*name_to_rgb('lightgray'))
+pdf.multi_cell(epw,0.15,'Your Title Test Result:-', fill= 1, align = 'C')
+pdf.ln(0.15)
+
+
+
+##Code for Output
+
+pdf.output('Final_Report.pdf','F')

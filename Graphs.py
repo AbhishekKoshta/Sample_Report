@@ -67,7 +67,7 @@ def Food_Comp1(C_P_F):
         x0,y0 = -0.5,0
         fcmp.fill_between([2+x0,3+x0],20,60,color = nephritis[3])
         fcmp.annotate("65", xy = ([1.5+x0,60+y0]), color = concrete[7], size = 20)
-        fcmp.annotate("45", xy = ([1.5+x0,20+y0]), color = concrete[7], size = 20)
+        fcmp.annotate("45", xy = ([1.5+x0,15+y0]), color = concrete[7], size = 20)
         fcmp.annotate("Carb", xy = ([2+x0,1+y0]), color = midnight_blue[9], size = 20)
         fcmp.plot([2+x0,3+x0],[2*C_P_F[0]-70,2*C_P_F[0]-70],'-k', 3 + x0,2*C_P_F[0]-70,'<k')
         fcmp.annotate(str(C_P_F[0])+"%",xy=([3.25+x0,2*C_P_F[0]-70+y0]),size=20,color=asbestos[8],weight='bold')
@@ -75,18 +75,18 @@ def Food_Comp1(C_P_F):
         x1,y1 = -0.25,0
         fcmp.fill_between([4.75+x1,5.75+x1],20,60,color = nephritis[3])
         fcmp.annotate("35", xy = ([4.25+x1,60+y1]), color = concrete[7], size = 20)
-        fcmp.annotate("15", xy = ([4.25+x1,20+y1]), color = concrete[7], size = 20)
+        fcmp.annotate("15", xy = ([4.25+x1,15+y1]), color = concrete[7], size = 20)
         fcmp.annotate("Protein", xy = ([4.75+x1,1+y1]), color = midnight_blue[9], size = 20)
         fcmp.plot([4.75+x1,5.75+x1],[2*C_P_F[1]-10,2*C_P_F[1]-10],'-k', 5.75+x1,2*C_P_F[1]-10,'<k')
-        fcmp.annotate(str(C_P_F[1])+"%",xy=([6+x1,2*C_P_F[1]-10]),size=20,color=asbestos[8],weight='bold')
+        fcmp.annotate(str(C_P_F[1])+"%",xy=([6+x1,2*C_P_F[1]-10+y1]),size=20,color=asbestos[8],weight='bold')
         
         x2,y2 = 0.25,0
         fcmp.fill_between([7.5+x2,8.5+x2],20,60,color = nephritis[3])
         fcmp.annotate("25", xy = ([7+x2,60+y2]), color = concrete[7], size = 20)
-        fcmp.annotate("15", xy = ([7+x2,20+y2]), color = concrete[7], size = 20)
+        fcmp.annotate("15", xy = ([7+x2,15+y2]), color = concrete[7], size = 20)
         fcmp.annotate("Fat", xy = ([7.75+x2,1+y2]), color = midnight_blue[9], size = 20)
         fcmp.plot([7.5+x2,8.5+x2],[4*C_P_F[2]-40,4*C_P_F[2]-40],'-k', 8.5+x2,4*C_P_F[2]-40,'<k', alpha=0.8)
-        fcmp.annotate(str(C_P_F[2])+"%",xy=([8.75+x2,4*C_P_F[2]-40]),size=20,color=asbestos[8],weight='bold')
+        fcmp.annotate(str(C_P_F[2])+"%",xy=([8.75+x2,4*C_P_F[2]-40+y2]),size=20,color=asbestos[8],weight='bold')
         
         x4,y4=0,-12
         fcmp.plot([11+x4,11.5+x4],[60+y4,60+y4],'-k',11.5+x4,60+y4,'<k')
@@ -111,16 +111,32 @@ def Food_Comp1(C_P_F):
 C_P_F = [55,26,19]    
 Food_Comp1(C_P_F)
 
+
+Height = 167
 BWkg_m = [70, 70.2, 71, 71.1, 70.8, 69.9, 70.3, 70, 70.5, 71, 71.3,71.7]
-def BW_grph(BWkg_m):
+def BW_grph(BWkg_m,Height):
     if __name__ == "__main__":
         import matplotlib.pyplot as plt
-        plt.plot(1,BWkg_m[0],'.og')
-        plt.plot(list(range(2,13)), )
+        fig , bw = plt.subplots()
+        bwi = BWkg_m[0]
+        bw.plot(1,bwi,'og')
+        bw.plot(list(range(2,13)), BWkg_m[1:], '*k')
+        uul,ul,ll,lll = 30*Height*Height/10000,25*Height*Height/10000, 18*Height*Height/10000, 15*Height*Height/10000
+
+        bw.fill_between([0,15],150,uul,color = pomegranate[3])
+        bw.fill_between([0,15],ul,uul,color = pomegranate[2])        
+        bw.fill_between([0,15],ll,ul,color = green_sea[2])
+        bw.fill_between([0,15],lll,ll,color = sunflower[2])
+        bw.fill_between([0,15],0,lll,color = sunflower[3])
+
+        ymx,ymin = max(BWkg_m)+5,min(BWkg_m)-5
+        plt.xlim([0,13])
+#        plt.ylim([ymx,ymin])
+        plt.show()
     
-    
-    
-    
+BW_grph(BWkg_m,Height)    
+
+
     
 '''
 # Graph for what you eat

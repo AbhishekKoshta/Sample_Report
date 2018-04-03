@@ -1,5 +1,5 @@
-from IPython import get_ipython
-get_ipython().magic('reset -sf')
+#from IPython import get_ipython
+#get_ipython().magic('reset -sf')
 import time
 start = time.clock()
 from fpdf import FPDF
@@ -33,7 +33,7 @@ def newpg():
 #    pdf.multi_cell(0,9, "Doctor's comment".format(Name))
     pdf.image(logo, x= 6.2 , y=0.3, w=2 , h= 0.5)
 
-    pdf.rect(0.75,1,width-1,height-2)        # (pdf.rect(left,top,right,bottom))
+#    pdf.rect(0.75,1,width-1,height-2)        # (pdf.rect(left,top,right,bottom))
     pdf.set_font('times','',14)
     pn = pdf.page_no()
     pdf.text(4.75,height-0.15, str(pn))
@@ -52,33 +52,43 @@ BW_PValue = "6454665"
 
 #Images
 logo = "MetFlux_Logo.png"
-Body_Weight = "Body Weight.png"
-Height = "Height.png"
-BMI = "Body Mass Index.png"
-Health_Score = "Health Score.png"
-Fatpc = "Body Fat.png"
-Macronutrient = "Macro_edited.png"
+
+# Page 1
+#Body_Weight = "Body Weight.png"
+#Height = "Height.png"
+#BMI = "Body Mass Index.png"
+#Health_Score = "Health Score.png"
+#Fatpc = "Body Fat.png"
+
+Body_Weight = "Body Weight.jpeg"
+Height = "Height.jpeg"
+BMI = "Body Mass Index.jpeg"
+Health_Score = "Health Score.jpeg"
+Fatpc = "Body Fat.jpeg"
+
+
+# Page 2
+Macronutrient = "Macro_edited.jpeg"
 Kcl_brk = "Daily_Kcal_Breakdown.png"
 Idl_Kcl_brk = "Ideal_Daily_Kcal_Breakdown.png"
-BMR = "Basal Metabolic Rate.png"
-EE = "Energy Excess.png"
-ED = "Energy Deficit.png"
-DE = "Daily Exercise.png"
+BMR = "Basal Metabolic Rate.jpeg"
+EE = "Energy Excess.jpeg"
+ED = "Energy Deficit.jpeg"
+DE = "Daily Exercise.jpeg"
 
 BMI_pred = "BMI_bimonthly.png"
 BWkg_pred = "BWkg.png"
 Body_Fatpc = "Body_Fat_Vis.png"
 
 Glc_Dyn = "Glc_Dyn.png"
-Hrt  =  "Heart Risk.png"
-Diab  = "Diabetes Risk.png"
+Hrt  =  "Heart Risk.jpeg"
+Diab  = "Diabetes Risk.jpeg"
 
 #newpg()
 
 
 
 ##============================================Page 1======================================#
-'''
 pdf.add_page()
 pdf.image(logo, x= 2.5 , y=0.1, w=4 , h= 0.75, )
 #pdf.rect(pdf.l_margin,1,width-1,height-2)
@@ -95,7 +105,7 @@ pdf.text(1+x0,2.25+y0, "ID:               MFSH93")
 pdf.text(1+x0,2.75+y0, "Gender:             Male")
 pdf.text(1+x0,3.25+y0,  "DOB:         07/01/1993")
 
-#pdf.image(Health_Score,x=5.5,y=2.5, w=2,h=1.75)
+pdf.image(Health_Score,x=5.5,y=2.5, w=2,h=1.75)
 #pdf.ln(pdf.font_size)
 pdf.text(0.75,4,"Dear {},".format(Name))
 intro = """Metflux is pleased to provide you with your personalized overall \
@@ -116,23 +126,23 @@ pdf.multi_cell(epw+1,0.25,"Current Health Status", align='L')
 
 frh = pdf.get_y()
 #pdf.rect(left,frh, epw/2.1, 2 )
-#pdf.image(Body_Weight, x=left-0.2, y=frh, w=2.2,h=1.5)
+pdf.image(Body_Weight, x=left-0.2, y=frh, w=2.2,h=1.5, type = 'jpeg')
 
 rw,rh = epw/2.1-left + 0.55, 2
 #pdf.rect(5,frh, rw, rh )
-#pdf.image(Height, x=5-0.2, y=frh, w=2,h=1.25)
+pdf.image(Height, x=5-0.2, y=frh, w=2,h=1.25, type = 'jpeg')
 
 #pdf.rect(left,frh+2.1, epw/2.1, 2 )
-#pdf.image(BMI, x=left-0.2, y=frh+2.1, w=2,h=1.25)
+pdf.image(BMI, x=left-0.2, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
 
 
 #pdf.rect(5,frh+2.1, rw,rh )
-#pdf.image(Fatpc, x=5-0.2, y=frh+2.1, w=2.2,h=1.5)
-'''
+pdf.image(Fatpc, x=5-0.2, y=frh+2.1, w=2.2,h=1.5, type = 'jpeg')
+
 
 
 ##============================================Page 2======================================#
-'''
+
 newpg()
 pdf.set_font('times','B',18)
 pdf.text(left,top+0.5,"WHAT YOU EAT")
@@ -180,7 +190,7 @@ pdf.image(EE, x = left+2*epw/2.75, y = top+2.05, w=epw/3,h=2)
 pdf.line(1,top+4.5,epw-6,top+4.5)
 pdf.line(1,top+4.75,epw-2,top+4.75)
 '''
-
+'''
 ##============================================Page 4======================================#
 newpg()
 pdf.set_font('times','B',18)
@@ -192,33 +202,16 @@ pdf.image(BWkg_pred, x=left + epw/2,y = top+3, w=epw/2,h=2.5)
 # Suggesting the fat %
 pdf.image(Body_Fatpc, x=left,y = top+ 5.55, w=epw/2,h=2.5)
 
-'''
+
 ##============================================Page 5======================================#
 newpg()
 pdf.set_font('times','B',18)
 pdf.text(left,top+0.5,"HEALTH PREDICTIONS")
-pdf.image(Glc_Dyn, x=left,y = top+0.55, w=epw/3.25,h=3)
-'''
+pdf.image(Glc_Dyn, x=left+0.5,y = top+0.55, w=epw/1.1,h=3)
+pdf.image(Diab, x=left,y = top+3.55, w=epw/2.1,h=3)
+pdf.image(Hrt, x=left+4.5,y = top+3.55, w=epw/2.1,h=3)
 
 
 
-
-
-
-
-
-
-
-
-
-pdf.output('Page_1.pdf','F')
-
-
-
-
-
-
-
-
-
+pdf.output('Demo4.pdf','F')
 print ("Time taken ",time.clock()-start, "sec")

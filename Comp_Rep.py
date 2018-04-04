@@ -128,22 +128,29 @@ pdf.multi_cell(epw+1,0.25,"Current Health Status", align='L')
 frh = pdf.get_y()
 pdf.set_font('times','',11)
 #pdf.rect(left,frh, epw/2.1, 2 )
-pdf.image(Body_Weight, x=left-0.2, y=frh, w=2.2,h=1.5, type = 'jpeg')
-pdf.set_xy(2.2,frh+0.15)
-pdf.multi_cell((epw/2)-0.15,0.15,"sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
+pdf.image(Body_Weight, x=left-0.2, y=frh, w=2,h=1.25, type = 'jpeg')
+pdf.set_xy(2.1,frh+0.15)
+pdf.multi_cell((epw/2)-1.25,0.15,"Body Weight sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
 dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
 
 rw,rh = epw/2.1-left + 0.55, 2
 #pdf.rect(5,frh, rw, rh )
-pdf.image(Height, x=5-0.2, y=frh, w=2,h=1.25, type = 'jpeg')
+pdf.image(Height, x=4.5, y=frh, w=2,h=1.25, type = 'jpeg')
+pdf.set_xy(6-0.1,frh+0.15)
+pdf.multi_cell((epw/2)-1.25,0.15,"Height sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
+dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
 
 #pdf.rect(left,frh+2.1, epw/2.1, 2 )
 pdf.image(BMI, x=left-0.2, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
-
+pdf.set_xy(2.1,frh+0.15+2.1)
+pdf.multi_cell((epw/2)-1.25,0.15," BMI sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
+dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
 
 #pdf.rect(5,frh+2.1, rw,rh )
-pdf.image(Fatpc, x=5-0.2, y=frh+2.1, w=2.2,h=1.5, type = 'jpeg')
-
+pdf.image(Fatpc, x=5-0.5, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
+pdf.set_xy(5.9,frh+0.15+2.1)
+pdf.multi_cell((epw/2)-1.15,0.15,"fat mass sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
+dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
 
 
 ##============================================Page 2======================================#
@@ -174,7 +181,10 @@ pdf.set_font('times','B',12)
 pdf.cell(0,0,"WHEN YOU EAT")
 pdf.image(Kcl_brk, x=left,y = top+4.55, w=epw/2,h=3)
 pdf.image(Idl_Kcl_brk, x=4.5,y = top+4.55, w=epw/2,h=3)
-Kbr = "You have most of the food at your dinner time. Please make a \
+Kbr = "Taking the right balance of nutricious food as just as important as \
+Taking the right amount of food at the right time.\
+\
+You have most of the food at your dinner time. Please make a \
 habit of eating as much as you can in your breakfast.This will help\
 you feel energetic through out the day and maintain your body weight."
 pdf.set_font('times','',12)
@@ -186,25 +196,35 @@ pdf.ln()
 
 ##============================================Page 3======================================#
 newpg()
-pdf.set_font('times','B',18)
-pdf.text(left,top+0.5,"PHYSICAL ACTIVITY/ENERGY EXPENDITURE DETAILS")
-pdf.line(1,top+0.5,epw-4,top+0.5)
-pdf.line(1,top+0.75,epw-6,top+0.75)
-pdf.line(1,top+1,epw-2,top+1)
-
-pdf.image(BMR, x = left, y = top+1.55, w=epw/3.25,h=2.5)
-
-pdf.image(DE, x = left+epw/2.75, y = top+1.8, w=epw/3,h=2.25)
-
-pdf.image(EE, x = left+2*epw/2.75, y = top+2.05, w=epw/3,h=2)
-
-pdf.line(1,top+4.5,epw-6,top+4.5)
-pdf.line(1,top+4.75,epw-2,top+4.75)
+pdf.set_font('times','B',12)
+pdf.cell(0,0,"PHYSICAL ACTIVITY/ENERGY EXPENDITURE DETAILS")
+pdf.set_font('times','',11)
+#pdf.line(1,top+0.5,epw-4,top+0.5)
+#pdf.line(1,top+0.75,epw-6,top+0.75)
+#pdf.line(1,top+1,epw-2,top+1)
+pdf.set_xy(0.5,top+0.5)
+pdf.multi_cell(epw,0.15,"zscsssssssssssssssssssssssssssssssss\
+               \ssssssssssssssssssssssssssssssssssssssssssssssss")
+btw= width-(left+2.6)-right
+pdf.image(BMR, x = left, y = top+1, w=2.5,h=2.5)
+pdf.set_xy(left+2.5,top+1.5)
+pdf.multi_cell(btw,0.15,"zscsssssssssssssssssssssssssssssssss\
+               \ssssssssssssssssssssssssssssssssssssssssssssssss")
+pdf.image(DE, x = left, y = top+3.5, w=2.5,h=2.5)
+pdf.set_xy(left+2.5,top+3.5+0.5)
+pdf.multi_cell(btw,0.15,"zscsssssssssssssssssssssssssssssssss\
+               \ssssssssssssssssssssssssssssssssssssssssssssssss")
+pdf.set_xy(left+2.5,top+6+0.5)
+pdf.image(EE, x = left, y = top+6, w=2.5,h=2.5)
+pdf.multi_cell(btw,0.15,"zscsssssssssssssssssssssssssssssssss\
+               \ssssssssssssssssssssssssssssssssssssssssssssssss")
+#pdf.line(1,top+4.5,epw-6,top+4.5)
+#pdf.line(1,top+4.75,epw-2,top+4.75)
 '''
 '''
 ##============================================Page 4======================================#
 newpg()
-pdf.set_font('times','B',18)
+pdf.set_font('times','B',12)
 pdf.text(left,top+0.5,"HEALTH PREDICTIONS")
 # BMI prediction graph
 pdf.image(BMI_pred, x=left,y = top+0.55, w=epw/2,h=2.5)

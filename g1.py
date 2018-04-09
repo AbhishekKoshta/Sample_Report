@@ -1,2 +1,2 @@
 from Graphs import num_graph
-num_graph("Random",12,"",wisteria[8])
+num_graph("Randomly",2,"times",wisteria[8])

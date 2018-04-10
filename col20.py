@@ -41,4 +41,13 @@ silver,
 concrete,
 asbestos)
 
+Acl = ["turquoise","green_sea","emerald","nephritis","peter_river","belize_hole","amethyst","wisteria","wet_asphalt",
+       "midnight_blue","sunflower","orange","carrot","pumpkin","alizarin","pomegranate","clouds","silver","concrete",
+       "asbestos"]
 
+if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+    for i in range(len(Acl)):
+        plt.annotate("{}".format(Acl[i]), xy = ([0,0]), size = 80, color =All_colors[i][8] )
+        plt.axis('off')
+        plt.show()

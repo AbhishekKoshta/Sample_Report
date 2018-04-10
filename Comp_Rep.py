@@ -44,11 +44,21 @@ Sex = "Male"
 Height = "169"
 Weight = "65"
 Date = " "
-BMI_CValue = "2000 "
-BMI_PValue = "51351"
-BW_CValue = "546516"
-BW_PValue = "6454665"
-#Lean_Mass_RValue =" "
+htmp = float(Height)
+Weight_Range = str(round(18*htmp*htmp/10000))+'-' +str(round(25*htmp*htmp/10000,1))  
+
+if Sex == 'Male' and htmp > 165:
+    Height_Comment = "You are taller than the average Indian male"
+elif Sex == 'Male' and htmp < 165:
+    Height_Comment = "You are shorter than the average Indian male"
+elif Sex == 'Male' and htmp == 165: 
+    Height_Comment = "Your height represents the average Indian's height"
+elif Sex == 'Female' and htmp > 155:
+    Height_Comment = "You are taller than the average Indian female"
+elif Sex == 'Female' and htmp < 155:
+    Height_Comment = "You are shorter than the average Indian female"
+else:
+    Height_Comment = "Your height represents the average Indian's height"
 
 #Images
 logo = "MetFlux_Logo.png"
@@ -66,7 +76,6 @@ BMI = "Body Mass Index.jpeg"
 Health_Score = "Health Score.jpeg"
 Fatpc = "Body Fat.jpeg"
 
-
 # Page 2
 Macronutrient = "Macro_edited.jpeg"
 Kcl_brk = "Daily_Kcal_Breakdown.png"
@@ -78,7 +87,7 @@ DE = "Daily Exercise.jpeg"
 
 BMI_pred = "BMI_bimonthly.png"
 BWkg_pred = "BWkg.png"
-Body_Fatpc = "Body_Fat_Vis.png"
+Body_Fatpc = "Body_Fat_Vis.JPEG"
 
 Glc_Dyn = "Glc_Dyn.png"
 Hrt  =  "Heart Risk.jpeg"
@@ -106,7 +115,7 @@ pdf.text(1+x0,2.25+y0, "ID:               MFSH93")
 pdf.text(1+x0,2.75+y0, "Gender:             Male")
 pdf.text(1+x0,3.25+y0,  "DOB:         07/01/1993")
 
-pdf.image(Health_Score,x=5.5,y=2.5, w=2,h=1.75)
+pdf.image(Health_Score,x=5.5,y=1.5, w=2,h=1.75)
 #pdf.ln(pdf.font_size)
 pdf.text(0.75,4,"Dear {},".format(Name))
 intro = """Metflux is pleased to provide you with your personalized overall \
@@ -129,23 +138,31 @@ pdf.multi_cell(epw+1,0.25,"Current Health Status", align='L')
 frh = pdf.get_y()
 pdf.set_font('times','',11)
 #pdf.rect(left,frh, epw/2.1, 2 )
+#<<<<<<< HEAD
+#pdf.image(Body_Weight, x=left-0.2, y=frh, w=2.2,h=1.5, type = 'jpeg')
+#pdf.set_xy(2.2,frh+0.15)
+#pdf.multi_cell((epw/2)-0.15,0.15,"sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
+#=======")
 pdf.image(Body_Weight, x=left-0.2, y=frh, w=2,h=1.25, type = 'jpeg')
 pdf.set_xy(2.1,frh+0.15)
+##<<<<<<< HEAD
 Body_Weight_Text = """Body Weight \
 
 Body weight is the measurement of weight without items located on the person \
 and any Excess or reduction in the body weight is regarded as an indicator of \
-determining a person's health \
+determining a person's health."""
 
-Your current Body Weight is XX Kgs"""
 pdf.multi_cell((epw/2)-1.25,0.15,Body_Weight_Text,align='L')
+#=======
+#pdf.multi_cell((epw/2)-2.25,0.15,"According to your height your ideal body weight \
+#               should be in the {} range ".format(Weight_Range))
+#>>>>>>> 263d03cb269bb5639ff5288508a5721979658fdf
 
 rw,rh = epw/2.1-left + 0.55, 2
 #pdf.rect(5,frh, rw, rh )
 pdf.image(Height, x=4.5, y=frh, w=2,h=1.25, type = 'jpeg')
 pdf.set_xy(6-0.1,frh+0.15)
-pdf.multi_cell((epw/2)-1.25,0.15,"Height sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
-dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
+pdf.multi_cell((epw/2)-2.25,0.15,Height_Comment)
 
 #pdf.rect(left,frh+2.1, epw/2.1, 2 )
 pdf.image(BMI, x=left-0.2, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
@@ -182,13 +199,13 @@ good habit on!. You can add some fibrous food items in you diet such as \
 banana/orange"
 pdf.set_font('times','',11)
 y = pdf.get_y()
-print (y)
+#print (y)
 pdf.set_xy(left,top+3.5)
 pdf.multi_cell(epw,0.2,macro)
 pdf.ln()
 
 y = pdf.get_y()
-print (y)
+#print (y)
 pdf.set_font('times','B',12)
 pdf.cell(0,0,"WHEN YOU EAT")
 pdf.image(Kcl_brk, x=left,y = top+4.55, w=epw/2,h=3)
@@ -208,13 +225,13 @@ pdf.ln()
 
 ##============================================Page 3======================================#
 newpg()
-pdf.set_font('times','B',12)
+pdf.set_font('times','B',14)
 pdf.cell(0,0,"PHYSICAL ACTIVITY/ENERGY EXPENDITURE DETAILS")
 pdf.set_font('times','',11)
 #pdf.line(1,top+0.5,epw-4,top+0.5)
 #pdf.line(1,top+0.75,epw-6,top+0.75)
 #pdf.line(1,top+1,epw-2,top+1)
-pdf.set_xy(0.5,top+0.5)
+pdf.set_xy(left,top+0.5)
 pdf.multi_cell(epw,0.15,"zscsssssssssssssssssssssssssssssssss\
                \ssssssssssssssssssssssssssssssssssssssssssssssss")
 btw= width-(left+2.6)-right
@@ -236,28 +253,54 @@ pdf.multi_cell(btw,0.15,"zscsssssssssssssssssssssssssssssssss\
 '''
 ##============================================Page 4======================================#
 newpg()
-pdf.set_font('times','B',12)
+pdf.set_font('times','B',14)
 pdf.cell(0,0,"HEALTH PREDICTIONS")
 # BMI prediction graph
 pdf.set_font('times','',11)
 pdf.image(BMI_pred, x=left,y = top+0.55, w=epw/2,h=2.5)
 pdf.set_xy(epw/2+0.5,1.75)
-BMI_Graph_Text= """Some Random Text zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"""
+BMI_Graph_Text= """BMI Prediction Graph
+
+The BMI is an attempt to quantify the amount of tissue mass (muscle, fat, and bone) in an individual, \
+and then categorize that person as underweight, normal weight, \
+overweight, or obese based on that value. A healthy BMI is between 18.5 and 23. \
+BMI is calculated by dividing your weight by the square of your height"""
 pdf.multi_cell(epw/2-0.05,0.15,BMI_Graph_Text,align = 'L')
 # Body weight dynamics
+pdf.set_xy(left,4.25)
+BMI_Graph_Text= """Body Weight Dynamics
+
+Body weight is the measurement of weight without items located on the person \
+and any Excess or reduction in the body weight is regarded \
+as an indicator of determining a person's health, with body volume measurement \
+providing an extra dimension by calculating the distribution of body weight."""
+pdf.multi_cell(epw/2-0.05,0.15,BMI_Graph_Text,align = 'L')
 pdf.image(BWkg_pred, x=left + epw/2,y = top+3, w=epw/2,h=2.5)
 # Suggesting the fat %
 pdf.image(Body_Fatpc, x=left,y = top+ 5.55, w=epw/2,h=2.5)
+pdf.set_xy(epw/2+0.75,6.75)
+BMI_Graph_Text= """Body Fat Percentage(BFP)
 
+The body fat percentage (BFP) is the total mass of fat divided by total \
+body mass where in body fat includes essential body fat and storage body fat. The BPF is \
+considered as a fitness level measure as only body measurement calculates a person's \
+relative body composition without regard to either height or body."""
+pdf.multi_cell(epw/2-0.05,0.15,BMI_Graph_Text,align = 'L')
 
 ##============================================Page 5======================================#
 newpg()
-pdf.set_font('times','B',18)
-pdf.text(left,top+0.5,"HEALTH PREDICTIONS")
+pdf.set_font('times','B',14)
+pdf.cell(0,0,"HEALTH PREDICTIONS")
+pdf.set_font('times','',11)
 pdf.image(Glc_Dyn, x=left+0.5,y = top+0.55, w=epw/1.1,h=3)
-pdf.image(Diab, x=left,y = top+3.55, w=epw/2.1,h=3)
-pdf.image(Hrt, x=left+4.5,y = top+3.55, w=epw/2.1,h=3)
+pdf.set_xy(left,4.75)
+Health_Text = """Some Random Text zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"""
+pdf.multi_cell(epw,0.15,Health_Text,align ='L')
+
+pdf.image(Diab, x=left,y = top+5, w=epw/2.1,h=2)
+
+pdf.image(Hrt, x=left+4.5,y = top+5, w=epw/2.1,h=2)
 
 
 

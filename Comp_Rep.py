@@ -92,8 +92,9 @@ Diab  = "Diabetes Risk.jpeg"
 pdf.add_page()
 pdf.image(logo, x= 2.5 , y=0.1, w=4 , h= 0.75, )
 #pdf.rect(pdf.l_margin,1,width-1,height-2)
-pdf.set_font('times','B',18)
-pdf.text(0.75,1.2, "{}'s Health Report".format(Name),)
+pdf.set_font('times','B',14)
+pdf.set_xy(0.75,1.2)
+pdf.cell(0,0, "{}'s Health Report".format(Name),align = 'C')
 
 x0 = 0; y0 = 0
 pdf.rect(0.75+x0,1.45+y0,4+x0,2.25+y0)       # (pdf.rect(left,top,right,bottom))
@@ -130,8 +131,14 @@ pdf.set_font('times','',11)
 #pdf.rect(left,frh, epw/2.1, 2 )
 pdf.image(Body_Weight, x=left-0.2, y=frh, w=2,h=1.25, type = 'jpeg')
 pdf.set_xy(2.1,frh+0.15)
-pdf.multi_cell((epw/2)-1.25,0.15,"Body Weight sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
-dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
+Body_Weight_Text = """Body Weight \
+
+Body weight is the measurement of weight without items located on the person \
+and any Excess or reduction in the body weight is regarded as an indicator of \
+determining a person's health \
+
+Your current Body Weight is XX Kgs"""
+pdf.multi_cell((epw/2)-1.25,0.15,Body_Weight_Text,align='L')
 
 rw,rh = epw/2.1-left + 0.55, 2
 #pdf.rect(5,frh, rw, rh )
@@ -143,14 +150,19 @@ dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
 #pdf.rect(left,frh+2.1, epw/2.1, 2 )
 pdf.image(BMI, x=left-0.2, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
 pdf.set_xy(2.1,frh+0.15+2.1)
-pdf.multi_cell((epw/2)-1.25,0.15," BMI sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
-dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
+BMI_Text = """The BMI is an attempt to quantify the amount of tissue mass in an individual, \
+and then categorize that person as underweight, \
+normal weight, or obese based on that value."""
+pdf.multi_cell((epw/2)-1.25,0.15,BMI_Text,align = 'L')
 
 #pdf.rect(5,frh+2.1, rw,rh )
 pdf.image(Fatpc, x=5-0.5, y=frh+2.1, w=2,h=1.25, type = 'jpeg')
 pdf.set_xy(5.9,frh+0.15+2.1)
-pdf.multi_cell((epw/2)-1.15,0.15,"fat mass sdasdadasdasdasdasdasdsdasdasdsdasdasdsa\
-dfffffffssfsfsfffffffffsssssssdfsdfsdfsdasdsdasd")
+BFP_Text = """The BPF is considered as a fitness level measure \
+as only body measurement calculates a \
+person's relative body \
+composition without regard to either height or body."""
+pdf.multi_cell((epw/2)-1.25,0.15,BFP_Text,align = 'L')
 
 
 ##============================================Page 2======================================#
@@ -225,9 +237,14 @@ pdf.multi_cell(btw,0.15,"zscsssssssssssssssssssssssssssssssss\
 ##============================================Page 4======================================#
 newpg()
 pdf.set_font('times','B',12)
-pdf.text(left,top+0.5,"HEALTH PREDICTIONS")
+pdf.cell(0,0,"HEALTH PREDICTIONS")
 # BMI prediction graph
+pdf.set_font('times','',11)
 pdf.image(BMI_pred, x=left,y = top+0.55, w=epw/2,h=2.5)
+pdf.set_xy(epw/2+0.5,1.75)
+BMI_Graph_Text= """Some Random Text zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"""
+pdf.multi_cell(epw/2-0.05,0.15,BMI_Graph_Text,align = 'L')
 # Body weight dynamics
 pdf.image(BWkg_pred, x=left + epw/2,y = top+3, w=epw/2,h=2.5)
 # Suggesting the fat %

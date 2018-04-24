@@ -294,15 +294,37 @@ pdf.cell(0,0,"HEALTH PREDICTIONS")
 pdf.set_font('times','',11)
 pdf.image(Glc_Dyn, x=left+0.5,y = top+0.55, w=epw/1.1,h=3)
 pdf.set_xy(left,4.75)
-Health_Text = """Some Random Text zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\
-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"""
+Health_Text = """Diabetes is a disease in which your blood glucose, or \
+blood sugar, levels are too high. Glucose comes from the foods you eat. \
+Insulin is a hormone that helps the glucose get into your cells to give \
+them energy. With type 1 diabetes, your body does not make insulin 
+
+1) With type 2 diabetes, the more common type, the body does not produce \
+enough insulin for proper function, or the cells in the body do not react \
+to insulin.
+2) Without enough insulin, the glucose stays in your blood. You can also \
+have prediabetes. This means that your blood sugar is higher than normal but \
+not high enough to be called diabetes."""
+
 pdf.multi_cell(epw,0.15,Health_Text,align ='L')
 
 pdf.image(Diab, x=left,y = top+5, w=epw/2.1,h=2)
+pdf.set_xy(left,top+5+2.1)
+Diab_Text = """Total cholesterol is a measure of the total amount of \
+cholesterol in your blood, including low-density lipoprotein (LDL) \
+cholesterol and high-density lipoprotein (HDL) cholesterol.
+Cholesterol levels should be measured at least once every five years in \
+everyone over age 20. Experts recommend that men ages 35 and \
+older and women ages 45 and older be more frequently screened for lipid \
+disorders
+"""
+pdf.multi_cell(epw/2-1,0.15,Diab_Text,align ='L')
 
 pdf.image(Hrt, x=left+4.5,y = top+5, w=epw/2.1,h=2)
-
-
+pdf.set_xy(epw/2+1,top+5+2.1)
+Hrt_Text = """Some Random Text zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\
+zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"""
+pdf.multi_cell(epw/2-1,0.15,Hrt_Text,align ='L')
 
 pdf.output('Demo4.pdf','F')
 print ("Time taken ",time.clock()-start, "sec")
